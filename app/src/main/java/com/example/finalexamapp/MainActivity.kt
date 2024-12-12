@@ -28,12 +28,15 @@ import androidx.room.PrimaryKey
 import androidx.room.Query
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.example.finalexamapp.ui.theme.FinalExamAppTheme
 import com.google.android.material.snackbar.Snackbar
+import org.junit.runner.RunWith
+import org.testng.annotations.Test
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,6 +102,23 @@ interface UserDao {
 @Database(entities = [User::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
+}
+
+@RunWith(AndroidJUnit4::class)
+class MainActivityTest {
+    @Test
+    fun button_isDisplayed() {
+        onView(withId(R.id.myButton)).check(matches(isDisplayed()))
+    }
+
+}
+
+@Test
+fun loginForm_isFunctional() {
+    onView(withId(R.id.username)).perform(typeText("user"))
+    onView(withId(R.id.password)).perform(typeText("password"))
+    onView(withId(R.id.loginButton)).perform(click())
+    onView(withId(R.id.welcomeMessage)).check(matches(isDisplayed()))
 }
 
 
